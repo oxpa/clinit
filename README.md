@@ -1,5 +1,7 @@
-# Clinit
-A lightweight and simple to use cluster management tool
+# ClInit
+A lightweight and simple to use cluster management tool.
+
+A name is derived from "**cl**uster **init**". But you can read that as "**cl**oud **init**" because everythin is in clouds nowadays.
 
 ### What it is
  It is a cluster management tool:
@@ -34,6 +36,60 @@ hat3:impala-server─┬─hat0:hdfs-namenode
                    └─hat0:impala-state-store
 
 ```
+## Configuration
+Default configuration is read from `/etc/clinit/services.xml` . As you might guess, it's a generic XML file. 
+```xml
+          <?xml version="1.0" encoding="utf-8"?>
+
+          <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    effective_user="root"
+                    effective_group="root"
+                    ssh_key="/root/.ssh/id_rsa">
+
+               <service id="mariadb" host="localhost"
+                        start="service mariadb start"
+                        stop="service mariadb  stop"
+                        status="service mariadb status">
+               </service>
+
+             <service id="httpd" host="localhost"
+                      start="service httpd start"
+                      stop="service httpd  stop"
+                      status="service httpd status">
+
+                  <requires id="mariadb" host="localhost" strong="true"/>
+             </service>
+
+            <group name="httpd">
+              <service id="httpd" host="localhost"/>
+            </group>
+
+            <group name="mariadb">
+              <service id="mariadb" host="localhost"/>
+            </group>
+
+          </services>
+```
+* `services` — configuration root tag.
+  * `effective_user`, `effective_group` — optional attributes. Configures a *local* user to use for a 'priviledged' command. <br/> 
+    Implementation uses `sudo -u $user`, so `sudo` should be installed and configured as required.<br/> 
+    See **Command Invocation** below for additional details. If attributes are omitted — current user and group are used;
+  * `ssh_key` — optional attribute. If defined, ssh is used with `-i $ssh_key` option.<br/>
+    Systems ssh client is used, so ssh configuration is honoured, ssh-agent may be used for auth.
+* `service` — describes a single service. Usually it's a single init script;
+  * attributes:
+    * `id` — obligatory. The display and internal name of a service;
+    * `host` — obligatory. A host which runs the service. Should be ssh accessible;
+    * `start`, `stop`, `status` — corresponding commands. Any of these may be omitted. See **Command Invocation** below;
+  * subtags:
+    * `requires` — lists a required service. Can be repeated as needed.<br/> 
+       To be precise: `requires` is a tag to establish start-stop order. See **Command invocation** below;
+      *  `id` attribute — obligatory, contains `service` tag `id` attribute;
+      *  `host` attribute — obligatory, contains required `service` tag `host` attribute;
+      *  `strong` attribute — if `false` or `0` then a
+* `group` — describes arbitary service grouping. Used for group commads.
+  * `service` — obligatory subtag. May be repeated several times if needed.
+    * `id` — corresponding  
 
 ## Initial help
 
