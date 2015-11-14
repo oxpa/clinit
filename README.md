@@ -1,7 +1,7 @@
 # ClInit
 A lightweight and simple to use cluster management tool.
 
-A name is derived from "**cl**uster **init**". But you can read that as "**cl**oud **init**" because everythin is in clouds nowadays.
+A name was derived from "**cl**uster **init**". But you can read that as "**cl**oud **init**" because everything is in clouds nowadays.
 
 ### What it is
  It is a cluster management tool:
@@ -13,7 +13,7 @@ A name is derived from "**cl**uster **init**". But you can read that as "**cl**o
 * Not a clustering tool: won't detect node failure for you
 * Not a deployment tool. While it is possible to install software with clinit, it is not intended usage
 
-## Example output
+## Example usage
 ```
 ~]$ clinit grouplist
 all
@@ -73,7 +73,7 @@ Default configuration is read from `/etc/clinit/services.xml` . As you might gue
 * `services` — configuration root tag.
   * `effective_user`, `effective_group` — optional attributes. Configures a *local* user to use for a 'priviledged' command. <br/> 
     Implementation uses `sudo -u $user`, so `sudo` should be installed and configured as required.<br/> 
-    See **Command Invocation** below for additional details. If attributes are omitted — current user and group are used;
+    See [Command Invocation](#Command Invocation) below for additional details. If attributes are omitted — current user and group are used;
   * `ssh_key` — optional attribute. If defined, ssh is used with `-i $ssh_key` option.<br/>
     Systems ssh client is used, so ssh configuration is honoured, ssh-agent may be used for auth.
 * `service` — describes a single service. Usually it's a single init script;
@@ -91,6 +91,7 @@ Default configuration is read from `/etc/clinit/services.xml` . As you might gue
   * `service` — obligatory subtag. May be repeated several times if needed.
     * `id` — corresponding  
 
+## Command invocation
 ## Initial help
 
 ```
