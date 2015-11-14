@@ -143,16 +143,15 @@ All options require a command to be specified except for `--help`.
 
 * `-j`, `--jobs=N` — specifies the number of jobs (commands) to run simultaneously. Use `-j0` to disable jobs. Default value `-j8`;
 
-* `--no-deps`, `--nodeps` start only services selected by selectors, don't figure out dependencies;
+* `--no-deps`, `--nodeps` — start only services selected by selectors, don't figure out dependencies;
 
-* `--force-deps` check each service dependencies even if it is running;
+* `--force-deps` — check each service dependencies even if it is running;
 
 * `--selected-deps` — resolve dependencies in bounds of selected services. Command(s) will affect ONLY selected services. <br/>
 While dependencies determines services start/stop order. This switch is useful to gracefully stop or start services on specified host. Complete ignoring dependencies (`--no-deps`) may cause startup errors.
 
 * `--no-remote=HOST` — Execute commands for specified host(s) locally.<br/>
-To disable remote execution on several hosts it is possible to use
-option multiple times or specify comma or space separated list:
+To disable remote execution on several hosts it is possible to use option multiple times or specify comma or space separated list:
 `--no-remote=localhost --no-remote="local,127.0.0.1 myhost"`
 
 * `-p`, `--probe-count=N` — sets probe count to N before probe procedure considered to be failed. Defaults to 10. `--probe-count=0` disables probing procedure in which case action is considerd to be successful always.
